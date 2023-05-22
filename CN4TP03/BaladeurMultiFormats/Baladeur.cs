@@ -124,7 +124,27 @@ namespace BaladeurMultiFormats
 
         public void ConvertirVersWMA(int pIndex)
         {
-           
+            if (pIndex >= 0 && pIndex < m_colChansons.Count)
+            {
+                Chanson ChansonDeBase = ChansonAt(pIndex);
+                string paroles = ChansonDeBase.Paroles;
+
+                //instancier une nouvelle chanson
+                Chanson chansonCréé = new ChansonWMA(NOM_RÉPERTOIRE, ChansonDeBase.Artiste, ChansonDeBase.Titre, ChansonDeBase.Annee);
+                //supprimer la chanson de base
+                File.Delete(ChansonDeBase.NomFicher);
+
+                //ouvre le fichier et ecrit l'entête et les paroles
+
+
+                StreamWriter objfichier = new StreamWriter(chansonCréé.NomFicher);
+                chansonCréé.EcrireEntete(objfichier);
+                chansonCréé.EcrireParoles(objfichier, paroles);
+                objfichier.Close();
+
+                m_colChansons[pIndex] = chansonCréé;
+
+            }
         }
     }
 }
