@@ -15,7 +15,7 @@ namespace BaladeurMultiFormats
         /// <summary>
         /// Chanson consultée
         /// </summary>
-        public object LaChanson { get; }
+        public Chanson LaChanson { get; }
         /// <summary>
         /// Calcul le délai en la date actuelle et la date de consultation de la chanson
         /// </summary>
@@ -34,7 +34,7 @@ namespace BaladeurMultiFormats
         /// </summary>
         /// <param name="pDate">Date au moment de la consulation</param>
         /// <param name="pChanson">Chanson qui a été consultée</param>
-        public Consultation(DateTime pDate, object pChanson)
+        public Consultation(DateTime pDate, Chanson pChanson)
         {
             if (pChanson == null) throw new ArgumentNullException();
             Date = pDate;

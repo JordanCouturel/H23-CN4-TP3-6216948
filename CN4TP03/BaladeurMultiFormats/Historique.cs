@@ -41,7 +41,7 @@ namespace BaladeurMultiFormats
         /// </summary>
         /// <param name="pIndexChanson"></param>
         /// <returns>Nombre de consultations pour une certaine chanson</returns>
-        public int NbConsultationsPourUneChanson(object pChanson)
+        public int NbConsultationsPourUneChanson(Chanson pChanson)
         {
 
             if (pChanson == null)
