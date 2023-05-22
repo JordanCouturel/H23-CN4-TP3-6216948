@@ -1,7 +1,6 @@
 ﻿using System;
+using System.Reflection;
 using System.Windows.Forms;
-using System.IO;
-
 
 namespace BaladeurMultiFormats
 {
@@ -10,10 +9,11 @@ namespace BaladeurMultiFormats
 
     public partial class FrmPrincipal : Form
     {
-        public const string APP_INFO = "(Matériel)";
+        public const string APP_INFO = "(Jordan Couture-Lafranchise 6216948)";
 
         #region Propriété : MonHistorique
         public Historique MonHistorique { get; }
+        public Baladeur baladeur;
         #endregion
         //---------------------------------------------------------------------------------
         #region FrmPrincipal
@@ -23,6 +23,14 @@ namespace BaladeurMultiFormats
             Text += APP_INFO;
             MonHistorique = new Historique();
             // À COMPLÉTER...
+
+
+            baladeur = new Baladeur();
+            baladeur.ConstruireLaListeDesChansons();
+            baladeur.AfficherLesChansons(lsvChansons);
+            MettreAJourSelonContexte();
+            lblNbChansons.Text = lsvChansons.Items.Count.ToString();
+
         }
         #endregion
         //---------------------------------------------------------------------------------
@@ -30,6 +38,39 @@ namespace BaladeurMultiFormats
         private void MettreAJourSelonContexte()
         {
             // À COMPLÉTER...
+
+            if (lsvChansons.SelectedIndices.Count > 0)
+            {
+                if (baladeur.ChansonAt(lsvChansons.SelectedIndices[0]).Format == "wma")
+                {
+                    MnuFormatConvertirVersWMA.Enabled = false;
+                }
+                else
+                {
+                    MnuFormatConvertirVersWMA.Enabled = true;
+                }
+
+                if (baladeur.ChansonAt(lsvChansons.SelectedIndices[0]).Format == "mp3")
+                {
+                    MnuFormatConvertirVersMP3.Enabled = false;
+                }
+                else
+                {
+                    MnuFormatConvertirVersMP3.Enabled = true;
+                }
+
+                if (baladeur.ChansonAt(lsvChansons.SelectedIndices[0]).Format == "aac")
+                {
+                    MnuFormatConvertirVersAAC.Enabled = false;
+                }
+                else
+                {
+                    MnuFormatConvertirVersAAC.Enabled = true;
+                }
+
+                lsvChansons.Items[lsvChansons.SelectedIndices[0]].SubItems[3].Text = baladeur.ChansonAt(lsvChansons.SelectedIndices[0]).Format.ToUpper();
+            }
+
         }
         #endregion
         //---------------------------------------------------------------------------------
@@ -37,6 +78,14 @@ namespace BaladeurMultiFormats
         private void LsvChansons_SelectedIndexChanged(object sender, EventArgs e)
         {
             // À COMPLÉTER...
+            if (lsvChansons.SelectedIndices.Count != 0)
+            {
+                txtParoles.Text = baladeur.ChansonAt(lsvChansons.SelectedIndices[0]).Paroles;
+                MonHistorique.Add(new Consultation(DateTime.Now, baladeur.ChansonAt(lsvChansons.SelectedIndices[0])));
+            }
+            MettreAJourSelonContexte();
+
+
         }
         #endregion
 
@@ -46,16 +95,63 @@ namespace BaladeurMultiFormats
         {
             // Vider l'historique car les références ne sont plus bonnes
             // À COMPLÉTER...
+
+            MonHistorique.Clear();
+
+
+            if ((!(baladeur.ChansonAt(lsvChansons.SelectedIndices[0]) is ChansonAAC)) && lsvChansons.SelectedIndices.Count != 0)
+            {
+                baladeur.ConvertirVersAAC(lsvChansons.SelectedIndices[0]);
+            }
+
+            //rafraichit l'affichage
+            lsvChansons.Items.Clear();
+            baladeur.AfficherLesChansons(lsvChansons);
+
+
+
         }
         private void MnuFormatConvertirVersMP3_Click(object sender, EventArgs e)
         {
             // Vider l'historique car les références ne sont plus bonnes
             // À COMPLÉTER...
+            MonHistorique.Clear();
+
+
+            if ((!(baladeur.ChansonAt(lsvChansons.SelectedIndices[0]) is ChansonMP3)) && lsvChansons.SelectedIndices.Count != 0)
+            {
+
+                baladeur.ConvertirVersMP3(lsvChansons.SelectedIndices[0]);
+            }
+
+            //rafraichit l'affichage
+            lsvChansons.Items.Clear();
+            baladeur.AfficherLesChansons(lsvChansons);
         }
         private void MnuFormatConvertirVersWMA_Click(object sender, EventArgs e)
         {
             // Vider l'historique car les références ne sont plus bonnes
             // À COMPLÉTER...
+            MonHistorique.Clear();
+
+
+            //if ((!(baladeur.ChansonAt(lsvChansons.SelectedIndices[0]) is ChansonWMA)) && lsvChansons.SelectedIndices.Count != 0)
+            //{
+            //    baladeur.ConvertirVersWMA(lsvChansons.SelectedIndices[0]);
+            //}
+
+            ////rafraichit l'affichage
+            //lsvChansons.Items.Clear();
+            //baladeur.AfficherLesChansons(lsvChansons);
+
+            if (lsvChansons.SelectedIndices.Count != 0)
+            {
+                baladeur.ConvertirVersWMA(lsvChansons.SelectedIndices[0]);
+                MettreAJourSelonContexte();
+
+            }
+
+
         }
         #endregion
         //---------------------------------------------------------------------------------
@@ -66,7 +162,7 @@ namespace BaladeurMultiFormats
             objFormulaire.ShowDialog();
         }
         #endregion
-         //---------------------------------------------------------------------------------
+        //---------------------------------------------------------------------------------
         #region Méthodes : MnuFichierQuitter_Click
         //---------------------------------------------------------------------------------
         private void MnuFichierQuitter_Click(object sender, EventArgs e)
