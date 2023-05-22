@@ -16,8 +16,12 @@
 # Mono auto generated files
 mono_crash.*
 
+bin/[Dd]ebug/*.*
+!bin/[Dd]ebug/chansons
+!bin/[Dd]ebug/Chansons avec bugs/
+
 # Build results
-[Dd]ebug/
+#[Dd]ebug/
 [Dd]ebugPublic/
 [Rr]elease/
 [Rr]eleases/
@@ -27,7 +31,7 @@ x86/
 [Aa][Rr][Mm]/
 [Aa][Rr][Mm]64/
 bld/
-[Bb]in/
+#[Bb]in/
 [Oo]bj/
 [Ll]og/
 [Ll]ogs/
