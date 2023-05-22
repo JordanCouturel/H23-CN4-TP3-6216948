@@ -63,7 +63,17 @@ namespace BaladeurMultiFormats
         }
         public void AfficherLesChansons(ListView pListView)
         {
-        
+            pListView.Items.Clear();
+
+            foreach (Chanson chansons in m_colChansons)
+            {
+                ListViewItem objitem = new ListViewItem(chansons.Artiste);
+                objitem.SubItems.Add(chansons.Titre);
+                objitem.SubItems.Add(chansons.Annee.ToString());
+                objitem.SubItems.Add(chansons.Format.ToUpper());
+
+                pListView.Items.Add(objitem);
+            }
 
         }
 
