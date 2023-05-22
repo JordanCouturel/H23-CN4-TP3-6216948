@@ -79,7 +79,25 @@ namespace BaladeurMultiFormats
 
         public void ConvertirVersAAC(int pIndex)
         {
-          
+            if (pIndex >= 0 && pIndex < m_colChansons.Count)
+            {
+                Chanson ChansonDeBase = ChansonAt(pIndex);
+                string paroles = ChansonDeBase.Paroles;
+
+                //instancier une nouvelle chanson
+                Chanson chansonCréé = new ChansonAAC(NOM_RÉPERTOIRE, ChansonDeBase.Artiste, ChansonDeBase.Titre, ChansonDeBase.Annee);
+                //supprimer la chanson de base
+                File.Delete(ChansonDeBase.NomFicher);
+
+                //ouvre le fichier et ecrit l'entête et les paroles
+                StreamWriter objfichier = new StreamWriter(chansonCréé.NomFicher);
+                chansonCréé.EcrireEntete(objfichier);
+                chansonCréé.EcrireParoles(objfichier, OutilsFormats.DecoderAAC(paroles));
+                objfichier.Close();
+
+                m_colChansons[pIndex] = chansonCréé;
+
+            }
         }
         public void ConvertirVersMP3(int pIndex)
         {
