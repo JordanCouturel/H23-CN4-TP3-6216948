@@ -30,7 +30,7 @@ namespace BaladeurMultiFormats
         #region Méthodes pour le format MP3
         public static string EncoderMP3(string pParoles)
         {
-           StringBuilder objChaine = new StringBuilder(pParoles);
+            StringBuilder objChaine = new StringBuilder(pParoles);
             for (int index = 0; index < objChaine.Length; index++)
             {
                 if (objChaine[index] >= 64)
@@ -53,7 +53,7 @@ namespace BaladeurMultiFormats
                     objChaine[index] = (char)(objChaine[index] ^ (pCode + index % 16));
             return objChaine.ToString();
         }
-        public static string DecoderWMA(string pParoles,int pCode)
+        public static string DecoderWMA(string pParoles, int pCode)
         {
             return EncoderWMA(pParoles, pCode);
         }

@@ -40,7 +40,7 @@ namespace BaladeurMultiFormats
 
             paroles = pobjFichier.ReadToEnd();
             paroles = OutilsFormats.DecoderMP3(paroles);
-            //pobjFichier.Close();
+
 
             return paroles;
 
@@ -51,16 +51,15 @@ namespace BaladeurMultiFormats
         public override void EcrireEntete(StreamWriter pobjFichier)
         {
             pobjFichier.WriteLine($"{Artiste} | {Annee} | {Titre}");
-            //pobjFichier.Close();
-
         }
 
         public override void EcrireParoles(StreamWriter pobjFichier, string pParoles)
         {
-            pobjFichier.WriteLine(pParoles);
-            OutilsFormats.EncoderMP3(pParoles);
+            string parolesencodés = OutilsFormats.EncoderMP3(pParoles);
+            pobjFichier.WriteLine(parolesencodés);
 
-            //pobjFichier.Close();
+
+
         }
 
 

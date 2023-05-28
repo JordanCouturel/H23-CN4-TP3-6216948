@@ -54,8 +54,9 @@ namespace BaladeurMultiFormats
 
         public override void EcrireParoles(StreamWriter pobjFichier, string pParoles)
         {
-            pobjFichier.WriteLine(pParoles);
-            OutilsFormats.EncoderWMA(pParoles, m_codage);
+            string parolesencodees = OutilsFormats.EncoderWMA(pParoles, m_codage);
+            pobjFichier.WriteLine(parolesencodees);
+
 
 
         }

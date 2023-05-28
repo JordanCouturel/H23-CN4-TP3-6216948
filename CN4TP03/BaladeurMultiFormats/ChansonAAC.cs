@@ -40,7 +40,7 @@ namespace BaladeurMultiFormats
         public override string LireParoles(StreamReader pobjFichier)
         {
             string paroles = "";
-            ///////////
+
             paroles = pobjFichier.ReadToEnd();
 
 
@@ -55,8 +55,9 @@ namespace BaladeurMultiFormats
 
         public override void EcrireParoles(StreamWriter pobjFichier, string pParoles)
         {
-            pobjFichier.WriteLine(pParoles);
-            OutilsFormats.EncoderAAC(pParoles);
+            string parolesencoder = OutilsFormats.EncoderAAC(pParoles);
+            pobjFichier.WriteLine(parolesencoder);
+
 
         }
 

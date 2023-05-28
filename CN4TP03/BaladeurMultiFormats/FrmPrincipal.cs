@@ -1,11 +1,10 @@
 ﻿using System;
-using System.Reflection;
 using System.Windows.Forms;
 
 namespace BaladeurMultiFormats
 {
     // Étapes de  réalisation :
-    // Étape #1 : Définir les classes Chanson et ChasonAAC
+    // Étape #1 : Définir les classes Chanson et ChansonAAC
 
     public partial class FrmPrincipal : Form
     {
@@ -82,6 +81,7 @@ namespace BaladeurMultiFormats
             {
                 txtParoles.Text = baladeur.ChansonAt(lsvChansons.SelectedIndices[0]).Paroles;
                 MonHistorique.Add(new Consultation(DateTime.Now, baladeur.ChansonAt(lsvChansons.SelectedIndices[0])));
+                MettreAJourSelonContexte();
             }
             MettreAJourSelonContexte();
 
@@ -99,14 +99,13 @@ namespace BaladeurMultiFormats
             MonHistorique.Clear();
 
 
-            if ((!(baladeur.ChansonAt(lsvChansons.SelectedIndices[0]) is ChansonAAC)) && lsvChansons.SelectedIndices.Count != 0)
+            if (lsvChansons.SelectedIndices.Count != 0)
             {
                 baladeur.ConvertirVersAAC(lsvChansons.SelectedIndices[0]);
+                MettreAJourSelonContexte();
             }
 
-            //rafraichit l'affichage
-            lsvChansons.Items.Clear();
-            baladeur.AfficherLesChansons(lsvChansons);
+
 
 
 
@@ -118,15 +117,14 @@ namespace BaladeurMultiFormats
             MonHistorique.Clear();
 
 
-            if ((!(baladeur.ChansonAt(lsvChansons.SelectedIndices[0]) is ChansonMP3)) && lsvChansons.SelectedIndices.Count != 0)
+            if (lsvChansons.SelectedIndices.Count != 0)
             {
 
                 baladeur.ConvertirVersMP3(lsvChansons.SelectedIndices[0]);
+                MettreAJourSelonContexte();
             }
 
-            //rafraichit l'affichage
-            lsvChansons.Items.Clear();
-            baladeur.AfficherLesChansons(lsvChansons);
+
         }
         private void MnuFormatConvertirVersWMA_Click(object sender, EventArgs e)
         {
@@ -135,21 +133,15 @@ namespace BaladeurMultiFormats
             MonHistorique.Clear();
 
 
-            //if ((!(baladeur.ChansonAt(lsvChansons.SelectedIndices[0]) is ChansonWMA)) && lsvChansons.SelectedIndices.Count != 0)
-            //{
-            //    baladeur.ConvertirVersWMA(lsvChansons.SelectedIndices[0]);
-            //}
-
-            ////rafraichit l'affichage
-            //lsvChansons.Items.Clear();
-            //baladeur.AfficherLesChansons(lsvChansons);
-
             if (lsvChansons.SelectedIndices.Count != 0)
             {
                 baladeur.ConvertirVersWMA(lsvChansons.SelectedIndices[0]);
                 MettreAJourSelonContexte();
-
             }
+
+
+
+
 
 
         }

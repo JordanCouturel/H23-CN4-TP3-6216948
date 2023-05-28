@@ -79,25 +79,27 @@ namespace BaladeurMultiFormats
 
         public void ConvertirVersAAC(int pIndex)
         {
-            if (pIndex >= 0 && pIndex < m_colChansons.Count)
-            {
-                Chanson ChansonDeBase = ChansonAt(pIndex);
-                string paroles = ChansonDeBase.Paroles;
 
-                //instancier une nouvelle chanson
-                Chanson chansonCréé = new ChansonAAC(NOM_RÉPERTOIRE, ChansonDeBase.Artiste, ChansonDeBase.Titre, ChansonDeBase.Annee);
-                //supprimer la chanson de base
-                File.Delete(ChansonDeBase.NomFicher);
+            Chanson ChansonDeBase = ChansonAt(pIndex);
+            string paroles = ChansonDeBase.Paroles;
 
-                //ouvre le fichier et ecrit l'entête et les paroles
-                StreamWriter objfichier = new StreamWriter(chansonCréé.NomFicher);
-                chansonCréé.EcrireEntete(objfichier);
-                chansonCréé.EcrireParoles(objfichier, OutilsFormats.DecoderAAC(paroles));
-                objfichier.Close();
+            //instancier une nouvelle chanson
+            Chanson chansonCréé = new ChansonAAC(NOM_RÉPERTOIRE, ChansonDeBase.Artiste, ChansonDeBase.Titre, ChansonDeBase.Annee);
 
-                m_colChansons[pIndex] = chansonCréé;
 
-            }
+            //ouvre le fichier et ecrit l'entête et les paroles
+            StreamWriter objfichier = new StreamWriter(chansonCréé.NomFicher);
+            chansonCréé.EcrireEntete(objfichier);
+            chansonCréé.EcrireParoles(objfichier, paroles);
+            objfichier.Close();
+
+            //supprimer la chanson de base
+            File.Delete(ChansonDeBase.NomFicher);
+
+
+            m_colChansons[pIndex] = chansonCréé;
+
+
         }
         public void ConvertirVersMP3(int pIndex)
         {
@@ -108,14 +110,18 @@ namespace BaladeurMultiFormats
 
                 //instancier une nouvelle chanson
                 Chanson chansonCréé = new ChansonMP3(NOM_RÉPERTOIRE, ChansonDeBase.Artiste, ChansonDeBase.Titre, ChansonDeBase.Annee);
-                //supprimer la chanson de base
-                File.Delete(ChansonDeBase.NomFicher);
+
 
                 //ouvre le fichier et ecrit l'entête et les paroles
                 StreamWriter objfichier = new StreamWriter(chansonCréé.NomFicher);
                 chansonCréé.EcrireEntete(objfichier);
-                chansonCréé.EcrireParoles(objfichier, OutilsFormats.DecoderMP3(paroles));
+                chansonCréé.EcrireParoles(objfichier, paroles);
+
                 objfichier.Close();
+
+
+                //supprimer la chanson de base
+                File.Delete(ChansonDeBase.NomFicher);
 
                 m_colChansons[pIndex] = chansonCréé;
 
@@ -131,16 +137,16 @@ namespace BaladeurMultiFormats
 
                 //instancier une nouvelle chanson
                 Chanson chansonCréé = new ChansonWMA(NOM_RÉPERTOIRE, ChansonDeBase.Artiste, ChansonDeBase.Titre, ChansonDeBase.Annee);
-                //supprimer la chanson de base
-                File.Delete(ChansonDeBase.NomFicher);
+
 
                 //ouvre le fichier et ecrit l'entête et les paroles
-
-
                 StreamWriter objfichier = new StreamWriter(chansonCréé.NomFicher);
                 chansonCréé.EcrireEntete(objfichier);
                 chansonCréé.EcrireParoles(objfichier, paroles);
                 objfichier.Close();
+
+                //supprimer la chanson de base
+                File.Delete(ChansonDeBase.NomFicher);
 
                 m_colChansons[pIndex] = chansonCréé;
 
