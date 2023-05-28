@@ -138,12 +138,6 @@ namespace BaladeurMultiFormats
                 baladeur.ConvertirVersWMA(lsvChansons.SelectedIndices[0]);
                 MettreAJourSelonContexte();
             }
-
-
-
-
-
-
         }
         #endregion
         //---------------------------------------------------------------------------------
